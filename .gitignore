@@ -89,3 +89,6 @@ dkms.conf
 
 # Ignore build artifacts
 build/
+
+# Ignore .idea config
+.idea
