@@ -1,11 +1,13 @@
 #include <netinet/in.h>
+#define MAX_NICK_LEN 32
 
-struct accepted_socket {
-    int accepted_socket_fd;
+typedef struct client {
+    int sock_fd;
     struct sockaddr_in address;
+    char nickname[MAX_NICK_LEN];
     int error;
-};
+} client_t;
 
 int setup_server(char *ip, int port);
-struct accepted_socket* accept_incoming_connection(int server_socket_fd);
-void receive_and_print(struct accepted_socket* client_socket);
+client_t* accept_incoming_connection(int server_socket_fd);
+void receive_and_print(client_t* client_socket);
