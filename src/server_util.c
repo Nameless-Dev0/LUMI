@@ -32,7 +32,7 @@ int setup_server(char *ip, int port){
 
 struct accepted_socket* accept_incoming_connection(int server_socket_fd){
     struct sockaddr_in *client_address = malloc(sizeof(struct sockaddr_in)); 
-    int address_size = sizeof(struct sockaddr_in);
+    socklen_t address_size = sizeof(struct sockaddr_in);
     int client_socket_fd = accept(server_socket_fd, (struct sockaddr*)client_address, &address_size);
     struct accepted_socket* socket_accepted = malloc(sizeof(struct accepted_socket));
     socket_accepted->accepted_socket_fd = client_socket_fd;
