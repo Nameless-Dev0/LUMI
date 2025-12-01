@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Iinclude -fsanitize=address -g
+CFLAGS =  -g -fsanitize=address -fno-omit-frame-pointer -O1 -Wall -Werror -Wextra -Iinclude
 LDFLAGS = -fsanitize=address
 
 SRC = $(wildcard src/*.c)
