@@ -8,13 +8,14 @@
 #include <unistd.h>
 #include "server_util.h"
 
-int setup_server(char *ip, int port){
+static client_t* client_list[MAX_CLIENTS];
 
+int setup_server(char *ip, int port){
     int server_socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     struct sockaddr_in *server_address = malloc(sizeof(struct sockaddr_in));
     server_address->sin_port = htons(port);
     server_address->sin_family = AF_INET;
-    
+
     if(strlen(ip) == 0)
         server_address->sin_addr.s_addr = INADDR_ANY;
     else
@@ -40,7 +41,7 @@ client_t* accept_incoming_connection(int server_socket_fd){
 
     if(accepted_client_fd < 0){
         accepted_client->error = accepted_client_fd;
-        printf("Socket Acceptance Falied!\n");
+        printf("Socket Acceptance Failed!\n");
     }
     else
         printf("Client Connected:\n");
