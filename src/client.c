@@ -6,19 +6,18 @@
 #include <sys/socket.h>
 
 int main() {
-
-    int clientFD = socket(AF_INET, SOCK_STREAM, 0);
-    if (clientFD < 0) {
+    int client_fd = socket(AF_INET, SOCK_STREAM, 0);
+    if (client_fd < 0) {
         perror("socket");
         return 1;
     }
 
-    struct sockaddr_in serverAddr;
-    serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(1500);
-    inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
+    struct sockaddr_in server_addr;
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(1500);
+    inet_pton(AF_INET, "127.0.0.1", &server_addr.sin_addr);
 
-    if (connect(clientFD, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) < 0) {
+    if (connect(client_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         perror("connect");
         return 1;
     }
@@ -26,7 +25,6 @@ int main() {
     printf("Connected to server!\n");
 
     char buffer[1024];
-
     while (1) {
         printf("> ");
         fflush(stdout);
@@ -37,12 +35,12 @@ int main() {
         // remove newline
         buffer[strcspn(buffer, "\n")] = 0;
 
-        if (send(clientFD, buffer, strlen(buffer), 0) < 0) {
+        if (send(client_fd, buffer, strlen(buffer), 0) < 0) {
             perror("send");
             break;
         }
     }
 
-    close(clientFD);
+    close(client_fd);
     return 0;
 }
